@@ -1,18 +1,18 @@
 <template>
   <div class="login-wrapper">
     <div class="modal">
-      <el-from :ref="userForm" :model="user" status-icon :rules="rules" >
+      <el-form ref="userForm" :model="user" status-icon :rules="rules" >
         <div class="title">火星</div>
-        <el-from-item prop="userName">
+        <el-form-item prop="userName">
           <el-input type="text" prefix-icon="el-icon-user" v-model="user.userName"/>
-        </el-from-item>
+        </el-form-item>
         <el-from-item prop="userPwd">
           <el-input type="password" prefix-icon="el-icon-view" v-model="user.userPwd"/>
         </el-from-item>
-          <el-from-item>
+          <el-form-item>
           <el-button type="primary" class="btn-login" @click="login">登录</el-button>
-        </el-from-item>
-      </el-from>
+        </el-form-item>
+      </el-form>
     </div>
   </div>
 </template>
@@ -42,9 +42,12 @@
     },
    methods:{
      login(){
+
        this.$refs.userForm.validate((valid)=>{
          if(valid){
-
+           this.$api.login(this.user).then((res)=>{
+             
+           })
          }else{
            return false;
          }

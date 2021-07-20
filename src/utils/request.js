@@ -29,7 +29,7 @@ service.interceptors.request.use((req)=>{
 service.interceptors.request.use((res)=>{
     //TO-DO
     
-    return resp;
+    return res;
 })
 
 /**
@@ -42,8 +42,11 @@ function request(options){
     if(options.method.toLowerCase() === 'get'){
         options.params = options.data;
     }
+    if(typeof options.mock !='undefined'){
+        config.mock = options.mock;
+    }
 
-    if(config.env == 'prod'){
+    if(config.env === 'prod'){
         service.defaults.baseURL = config.baseApi;
     }else{
         service.defaults.baseURL = config.mock ? config.mockApi:config.baseApi;
