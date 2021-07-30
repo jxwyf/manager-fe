@@ -4,21 +4,21 @@
 const env = import.meta.MODE || 'prod';
 const EnvConfig = {
     dev:{
-        baseApi:'/',
+        baseApi:'/a',
         mockApi:'https://www.fastmock.site/mock/3a89fe6788c492c98560f8847c52719b/api'
     },
     test:{
-        baseApi:'/',
+        baseApi:'/ap',
         mockApi:'https://www.fastmock.site/mock/3a89fe6788c492c98560f8847c52719b/api'
     },
     prod:{
-        baseApi:'/',
+        baseApi:'/api',
         mockApi:'https://www.fastmock.site/mock/3a89fe6788c492c98560f8847c52719b/api'
     },
 }
 export default {
     env,
-    mock:true,
+    mock:false,
     namespace:'manager',
     ...EnvConfig[env]
 
