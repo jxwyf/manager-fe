@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>欢迎来到登录页面</h1>
-    <el-button>回首页</el-button>
+    <h1>欢迎来到首页</h1>
+    <el-button>去登录</el-button>
   </div>
 </template>
 
@@ -10,3 +10,7 @@
     name:'welcome'
   }
 </script>
+
+<style>
+
+</style>

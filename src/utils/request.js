@@ -21,14 +21,19 @@ service.interceptors.request.use((req)=>{
     if(!headers.Authorization){
 
     }
+   
     return req;
 })
 
 
 //响应拦截
-service.interceptors.request.use((res)=>{
+service.interceptors.response.use((res)=>{
+
+    console.log(res.status)
     //TO-DO
-    
+    if(res.status==200){
+        return res.data.date;
+    }
     return res;
 })
 
@@ -37,6 +42,7 @@ service.interceptors.request.use((res)=>{
  * @param {*} 请求配置
  */
 function request(options){
+
     options.method = options.method || 'get';
 
     if(options.method.toLowerCase() === 'get'){
@@ -46,12 +52,18 @@ function request(options){
         config.mock = options.mock;
     }
 
+
+ 
+
+    //判断环境加url
     if(config.env === 'prod'){
         service.defaults.baseURL = config.baseApi;
     }else{
         service.defaults.baseURL = config.mock ? config.mockApi:config.baseApi;
     }
-
+    if(config.mock){
+        service.defaults.baseURL = config.mock ? config.mockApi:config.baseApi;
+    }
    return service(options)
 }
 

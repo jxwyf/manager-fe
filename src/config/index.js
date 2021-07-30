@@ -13,13 +13,13 @@ const EnvConfig = {
     },
     prod:{
         baseApi:'/',
-        mockApi:''
+        mockApi:'https://www.fastmock.site/mock/3a89fe6788c492c98560f8847c52719b/api'
     },
 }
 export default {
     env,
     mock:true,
-    namespace:'',
+    namespace:'manager',
     ...EnvConfig[env]
 
 }
