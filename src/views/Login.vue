@@ -42,7 +42,6 @@
     },
    methods:{
      login(){
-
        this.$refs.userForm.validate((valid)=>{
          if(valid){
            this.$api.login(this.user).then((res)=>{

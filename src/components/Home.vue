@@ -1,23 +1,100 @@
 <template>
-    <div class="basic-layout">
-    <div class="nav-side"></div>
-    <div class="content-right">
-      <div class="nav-top">
-        <div class="bread">面包屑</div>
-        <div class="user-">用户</div>
-      </div>
-      <div class="wrapper">
-        <div class="main-page">
-          <router-view></router-view>
-          </div>    
-      </div>
-    </div>
-  </div>
+   <div class="basic-layout">
+     <div :class="['nav-side',isCollapse?'fold':'unfole']">
+       <!-- 系统logo -->
+       <div class="logo">
+         <img src="./../assets/logo.png">
+         <span>Manager</span>
+       </div>
+       <!-- 导航菜单 -->
+       <el-menu
+        :default-active="activeMenu"
+        background-color="#001529"
+        text-color="#fff"
+        router
+        :collapse="isCollapse"
+        class="nav-menu"
+      >
+        <tree-menu :userMenu="userMenu" />
+      </el-menu>
+     </div>
+     <div :class="['content-right',,isCollapse?'fold':'unfole']">
+       <div class="nav-top">
+         <div class="nav-left">
+           <div class="menu-fold" @click="toggle"><i class="el-icon-s-fold"></i></div>
+           <div class="bread">面包屑</div>
+         </div>
+         <div class="user-info">
+          <el-badge :is-dot="noticeCount" class="notice" type="danger">
+            <i class="el-icon-bell"></i>
+          </el-badge>
+          <el-dropdown @command="handleLogout">
+            <span class="user-link">
+              {{userInfo.userName}}
+              <i class="el-icon--right"></i>
+            </span>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="email">邮箱:{{userInfo.userEmail}}</el-dropdown-item>
+                  <el-dropdown-item command="logout">退出</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+         </div>
+       </div>
+     </div>
+   </div>
 </template>
 
 <script>
+
+import TreeMenu from './TreeMenu.vue'
+
   export default{
-    name:'home'
+    name:'Home',
+    components:{TreeMenu},
+    data(){
+      return {
+        isCollapse:false,
+        userInfo: this.$store.state.userInfo,
+        noticeCount:0,
+        userMenu:[]
+      }
+    },
+    mounted(){
+      this.getNoticeCount();
+      this.getMenuList();
+    },
+    methods:{
+      toggle(){
+        this.isCollapse = !this.isCollapse;
+      },
+      handleLogout(key){
+        if(key == 'email'){
+          return;
+        }
+        this.$store.commit('saveUserInfo','');
+        this.userInfo = null;
+        this.$router.push('/login');
+      },
+      async getNoticeCount(){
+        try{
+        const count = await this.$api.noticeCount()
+        this.noticeCount = count;
+        }catch(error){
+          console.error(error)
+        }
+      },
+       async getMenuList(){
+        try{
+        const list = await this.$api.noticeCount()
+        this.userMenu = list;
+        }catch(error){
+          console.error(error)
+        }
+      }
+
+    }
   }
 </script>
 
@@ -31,8 +108,18 @@
     background-color: #001529;
     color:#fff;
     overflow-y: auto;
-    transition: width .5s;;
-  }
+    transition: width 0.5s;
+  }.logo {
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      height: 50px;
+      img {
+        margin: 0 16px;
+        width: 32px;
+        height: 32px;
+      }
+    }
   .content-right{
     margin-left: 200px;
     .nav-top{

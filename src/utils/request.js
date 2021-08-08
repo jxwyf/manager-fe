@@ -32,9 +32,9 @@ service.interceptors.request.use((req)=>{
 
 //响应拦截
 service.interceptors.response.use((res)=>{
-    const { code, data, msg} = res.data;
+    const { code, date, msg} = res.data;
     if(code === 200){
-        return data;
+        return date;
     }else if (code === 500001) {
         ElMessage.error(TOKEN_INVALID)
         setTimeout(() => {
@@ -70,6 +70,9 @@ function request(options){
     if(config.env === 'prod'){
         service.defaults.baseURL = config.baseApi;
     }else{
+        service.defaults.baseURL = config.mock ? config.mockApi:config.baseApi;
+    }
+    if(config.mock==true){
         service.defaults.baseURL = config.mock ? config.mockApi:config.baseApi;
     }
   

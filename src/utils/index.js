@@ -43,7 +43,7 @@ function request(options){
         options.params = options.data;
     }
 
-    if()
+    // if()
    return service(options)
 }
 
