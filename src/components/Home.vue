@@ -25,7 +25,7 @@
            <div class="bread">面包屑</div>
          </div>
          <div class="user-info">
-          <el-badge :is-dot="noticeCount" class="notice" type="danger">
+          <el-badge :is-dot="noticeCount>0?true:false" class="notice" type="danger">
             <i class="el-icon-bell"></i>
           </el-badge>
           <el-dropdown @command="handleLogout">
@@ -58,7 +58,8 @@ import TreeMenu from './TreeMenu.vue'
         isCollapse:false,
         userInfo: this.$store.state.userInfo,
         noticeCount:0,
-        userMenu:[]
+        userMenu:[],
+        activeMenu:''
       }
     },
     mounted(){
@@ -87,8 +88,9 @@ import TreeMenu from './TreeMenu.vue'
       },
        async getMenuList(){
         try{
-        const list = await this.$api.noticeCount()
+        const list = await this.$api.getMenuList()
         this.userMenu = list;
+        console.log(userMenu)
         }catch(error){
           console.error(error)
         }

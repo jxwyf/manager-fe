@@ -32,9 +32,10 @@ service.interceptors.request.use((req)=>{
 
 //响应拦截
 service.interceptors.response.use((res)=>{
-    const { code, date, msg} = res.data;
-    if(code === 200){
-        return date;
+    const { code, data, msg} = res.data;
+    if(code === 200 || code === 0){
+        // return date;
+        return data;
     }else if (code === 500001) {
         ElMessage.error(TOKEN_INVALID)
         setTimeout(() => {
